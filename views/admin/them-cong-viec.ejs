@@ -1,0 +1,95 @@
+<%include header%>
+	
+	<div class="pcoded-main-container">
+		<div class="pcoded-wrapper">
+			<div class="pcoded-content">
+				<div class="pcoded-inner-content">
+					<div class="main-body">
+						<div class="page-wrapper">
+							<div class="page-header-title">
+								<div class="row align-items-center">
+									<div class="col-md-5 header-title">
+										<h4>Thêm mới công việc</h4>
+									</div>
+									<div class="col-md-7 text-right">
+										<ul class="breadcrumb">
+											<li class="breadcrumb-item"><a href="/portal"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+											<li class="breadcrumb-item"><a href="/portal/jobs/list">Danh sách công việc</a></li>
+											<li class="breadcrumb-item">Thêm mới công việc</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						
+							<div class="content-block">
+                                <form action="/portal/jobs/add" method="post">
+									<div class="row">
+										<div class="col-md-9 font-italic">
+											(<span class="text-danger">*</span>) Bắt buộc phải điền đầy đủ thông tin công việc.
+										</div>
+										<div class="col-md-12 pt-3">
+											<label class="font-weight-bold">Tên công việc <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="title" placeholder="Nhập tên công việc mới..." required/>
+										</div>
+										<!-- <div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Người tạo <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="" value="<%= user.name%>" required/>
+										</div> -->
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Số lượng <span class="text-danger">*</span></label>
+											<input type="number" class="type-input" name="quantity" placeholder="Nhập số lượng" required/>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Hạn ứng tuyển <span class="text-danger">*</span></label>
+											<input type="date" class="type-input" name="deadline" placeholder="dd/mm/yyyy" required/>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Kiểu thời gian <span class="text-danger">*</span></label>
+											<select name="timeType" class="type-select" required>
+												<option value="Fulltime">Fulltime</option>
+												<option value="Parttime">Partime</option>
+											</select>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Chức vụ <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="position" placeholder="Nhập chức vụ" required/>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Lương <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="salary" placeholder="Nhập lương" required/>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Kinh nghiệm <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="experience" placeholder="Nhập kinh nghiệm làm việc" required/>
+										</div>
+										<div class="col-md-3 pt-3">
+											<label class="font-weight-bold">Địa điểm <span class="text-danger">*</span></label>
+											<input type="text" class="type-input" name="location" placeholder="Nhập địa điểm làm việc" required/>
+										</div>
+										<div class="col-md-12 pt-3">
+											<label class="font-weight-bold">Mô tả công việc <span class="text-danger">*</span></label>
+											<textarea class="type-input" name="description" id="editor1" placeholder="Nhập công dụng sản phẩm..."></textarea>
+										</div>
+										<div class="col-md-12 pt-3">
+											<label class="font-weight-bold">Yêu cầu ứng viên <span class="text-danger">*</span></label>
+											<textarea class="type-input" name="requirements" id="editor2" placeholder="Nhập mô tả sản phẩm..."></textarea>
+										</div>
+										<div class="col-md-12 pt-3">
+											<label class="font-weight-bold">Quyền lợi <span class="text-danger">*</span></label>
+											<textarea class="type-input" name="benefits" id="editor3" placeholder="Nhập hỗ trợ sản phẩm..."></textarea>
+										</div>
+										<div class="col-md-12 py-3 text-center">
+											<button type="submit" class="btn btn-info"><i class="far fa-save"></i> Lưu lại</button>
+											<button type="reset" class="btn btn-danger"><i class="far fa-trash-alt"></i> Hủy bỏ</button>
+											<a href="/portal/jobs/list" class="btn btn-warning"><i class="fas fa-reply"></i> Trở về</a>
+										</div>
+									</div>
+                                </form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<% include footer%>

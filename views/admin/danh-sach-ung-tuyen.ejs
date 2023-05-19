@@ -1,0 +1,192 @@
+<% include header %>
+	
+	<div class="pcoded-main-container">
+		<div class="pcoded-wrapper">
+			<div class="pcoded-content">
+				<div class="pcoded-inner-content">
+					<div class="main-body">
+						<div class="page-wrapper">
+							<div class="page-header-title">
+								<div class="row align-items-center">
+									<div class="col-md-5 header-title">
+										<h4>Danh sách ứng tuyển</h4>
+									</div>
+									<div class="col-md-7 text-right">
+										<ul class="breadcrumb">
+											<li class="breadcrumb-item"><a href="/portal"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+											<li class="breadcrumb-item">Danh sách ứng tuyển</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						
+							<div class="content-block">
+								<div class="row">
+									<div class="col-md-12">
+										<a href="" onclick="printData()" class="btn btn-info"><i class="fas fa-print"></i> In dữ liệu</a>
+										<hr>
+									</div>
+									<div class="col-md-6 pb-3">
+										Hiện <select name="perPage" onchange="window.location.assign(this.value)" class="type-select" style="width: 85px;">
+											<option value="/portal/recruitment/list?page=1&perPage=10" <%if(perPage == 10) {%> selected<%}%>>10</option>
+											<option value="/portal/recruitment/list?page=1&perPage=20" <%if(perPage == 20) {%> selected<%}%>>20</option>
+											<option value="/portal/recruitment/list?page=1&perPage=25" <%if(perPage == 25) {%> selected<%}%>>25</option>
+											<option value="/portal/recruitment/list?page=1&perPage=50" <%if(perPage == 50) {%> selected<%}%>>50</option>
+											<option value="/portal/recruitment/list?page=1&perPage=100" <%if(perPage == 100) {%> selected<%}%>>100</option>
+										</select> ứng tuyển
+									</div>
+									<div class="col-md-6 text-right">
+										<b>Tìm kiếm: </b> <input type="text" id="myInput" class="type-input" name="search" placeholder="Tìm kiếm..." style="width: 280px"/>
+									</div>
+									<div class="col-md-12">
+										<table id="printTable" class="table table-bordered table-sm">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Tên công việc</th>
+													<th>Họ tên ứng viên</th>
+													<th>Số điện thoại</th>
+													<th>Email</th>
+													<th>Thời gian nộp</th>
+                                                    <th>Hồ sơ</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Tính năng</th>
+												</tr>
+											</thead>
+											<tbody id="myTable">
+												<%if (listRecruitment.length > 0) {
+													listRecruitment.forEach((item, index) => {%>
+												<tr>
+													<td><%= item.id%></td>
+													<td><%= item.Job.title%></td>
+													<td><%= item.name%></td>
+													<td><%= item.phone%></td>
+													<td><%= item.email%></td>
+													<td><%= item.createTime%></td>
+													<td class="text-center">
+														<h3><a href="/portal/recruitment/read/id=<%= item.id%>" target="_blank"><i class="far fa-file-alt"></i></a></h3>
+													</td>
+													<td>
+														<%if (item.status == "Chờ duyệt") {%>
+															<a href="" class="badge bg-warning text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%} else if (item.status == "Đã duyệt") {%>
+															<a href="" class="badge bg-info text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%} else if (item.status == "Phỏng vấn") {%>
+															<a href="" class="badge bg-primary text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%} else if (item.status == "Trúng tuyển") {%>
+															<a href="" class="badge bg-success text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%} else if (item.status == "Không đạt") {%>
+															<a href="" class="badge bg-secondary text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%} else if (item.status == "Ứng viên từ chối") {%>
+															<a href="" class="badge bg-danger text-white" data-toggle="modal" data-target="#myModal<%= index%>"><%= item.status%></a>
+														<%}%>
+														<div class="modal fade" id="myModal<%= index%>">
+															<div class="modal-dialog modal-dialog-centered modal-md">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h4 class="modal-title">Cập nhật trạng thái hồ sơ ứng viên</h4>
+																		<button type="button" class="close" data-dismiss="modal">&times;</button>
+																	</div>
+																	<form action="/portal/recruitment/status" method="post">
+																		<div class="modal-body">
+																			<p>Mã hồ sơ ứng tuyển: <span class="text-primary font-weight-bold"><%= item.id%></span></p>
+																			<input type="text" name="id" value="<%= item.id%>" hidden/>
+																			<input type="text" name="page" value="list" hidden />
+																			<ul class="statusDelivery">
+																				<li><input type="radio" name="status" value="Chờ duyệt" class="pr-3" <%if (item.status == "Chờ duyệt") {%>checked <%}%> /> Chờ duyệt hồ sơ ứng tuyển</li>
+																				<li><input type="radio" name="status" value="Đã duyệt" class="pr-3" <%if (item.status == "Đã duyệt") {%>checked <%}%> /> Đã duyệt hồ sơ ứng tuyển</li>
+																				<li><input type="radio" name="status" value="Phỏng vấn" <%if (item.status == "Phỏng vấn") {%>checked <%}%>/> Phỏng vấn ứng viên</li>
+																				<li><input type="radio" name="status" value="Trúng tuyển" <%if (item.status == "Trúng tuyển") {%>checked <%}%>/> Ứng viên trúng tuyển</li>
+																				<li><input type="radio" name="status" value="Không đạt" <%if (item.status == "Không đạt") {%>checked <%}%> /> Ứng viên không đạt yêu cầu</li>
+																				<li><input type="radio" name="status" value="Ứng viên từ chối" <%if (item.status == "Ứng viên từ chối") {%>checked <%}%> /> Ứng viên từ chối</li>
+																			</ul>
+																		</div>
+																		<div class="modal-footer text-center">
+																			<button type="submit" class="btn btn-info">Cập nhật</button>
+																			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</td>
+													<td class="text-center">
+														<a href="/portal/recruitment/edit/id=<%= item.id%>"><i class="fas fa-edit"></i></a>
+														<a href="/portal/recruitment/delete/id=<%= item.id%>" onclick="return confirm('Bạn có chắc chắn muốn xóa ứng viên này không?')"><i class="far fa-trash-alt"></i></a>
+													</td>
+												</tr>
+												<%})} else {%>
+													<tr>
+														<td colspan="10" class="text-center">Không có dữ liệu</td>
+													</tr>
+												<%}%>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-md-12">
+										<div class="row">
+											<% if(pages > 0) { %>
+												<nav class="mx-auto">
+													<ul class="pagination" style="margin-top: auto;">
+												 
+													<% if(current == 1) { %> 
+														<li class="page-item disabled">
+															<a class="page-link" href="/portal/recruitment/list?page=1&perPage=<%= perPage%>">First</a>
+														</li>
+													<% } else { %>
+														<li class="page-item">
+															<a class="page-link" href="/portal/recruitment/list?page=1&perPage=<%= perPage%>">First</a>
+														</li>
+													<% } %>
+						
+												<% var i = (Number(current) > 3 ? Number(current) - 2 : 1) %> 
+													<% if(i !== 1) { %>
+														<li class="page-item disabled">
+															<a class="page-link" href="#">...</a>
+														</li>
+													<% } %>
+													<% for(; i <= (Number(current) + 2) && i <= pages; i++) { %>
+														<% if(i == current) { %>
+															<li class="page-item active">
+																<a class="page-link" href="/portal/recruitment/list?page=<%= i %>&perPage=<%= perPage%>">
+																	<%= i %>
+																</a>
+															</li>
+														<% } else { %>
+															<li class="page-item">
+																<a class="page-link" href="/portal/recruitment/list?page=<%= i %>&perPage=<%= perPage%>">
+																	<%= i %>
+																</a>
+															</li>
+														<% } %>
+														<% if (i == Number(current) + 2 && i < pages) { %>
+															<li class="page-item disabled">
+																<a class="page-link" href="#">...</a>
+															</li>
+														<% } %>
+												<% } %>
+						
+												<% if(current == pages) { %> 
+													<li class="page-item disabled">
+														<a class="page-link" href="#">Last</a>
+													</li>
+												<% } else { %>
+													<li class="page-item">
+														<a class="page-link" href="/portal/recruitment/list?page=<%= pages %>&perPage=<%= perPage%>">Last</a>
+													</li>
+												<% } %>
+												</ul>
+											</nav>
+										<% } %>
+										</div>
+						  			</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<% include footer %>

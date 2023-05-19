@@ -1,0 +1,67 @@
+<% include header %>
+
+<div class="body-content outer-top-xs" id="top-banner-and-menu">
+  <div class="container">
+    <div class="col-md-12 phantrang text-left">
+      <ul>
+        <li><a href="/">Trang chủ</a> / </li>
+        <li>Tuyển dụng</li>
+     </ul>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 homebanner-holder dichuyenlen"> 
+        <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
+          <div class="tab-content tab-content-table outer-top-xs box_shadow_border_radius" >
+            <h2 class="pb-3"><b>Tuyển dụng</b></h2><hr>
+            <%if (listJobs.length > 0) {
+                listJobs.forEach((item) => {%>
+            <div class="row py-3 mx-auto khoituyendungitem">
+                <div class="col-md-2">
+                    <div class="hinhtuyendung" style="width: 160px">
+                        <a href="/jobs/detail/id=<%= item.id%>"><img src="/avatar/tuyendung.png" alt="imga"></a>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                   <div class="khoituyendung">
+                        <div class="khoitt_tuyendung">
+                            <a href="/jobs/detail/id=<%= item.id%>" class="btn btn-success p"><%= item.timeType%></a>
+                        </div>
+                        <div class="product-name tuyendung_name khoitt_name pb-3"><a href="/jobs/detail/id=<%= item.id%>"><%= item.title%></a></div>
+                        <div class="product-name">
+                            <table style="font-size: 13px" >
+                                <tr>
+                                    <td width="100px" class="pb-2"><i class="far fa-calendar-check"></i> Kinh nghiệm: </td>
+                                    <td class="pb-2"><%= item.experience%></td>
+                                </tr>
+                                <tr>
+                                    <td class="pb-2"><i class="fas fa-street-view"></i> Vị trí: </td>
+                                    <td class="pb-2"><%= item.location%></td>
+                                </tr>
+                                <tr>
+                                    <td class="pb-2"><i class="fas fa-hand-holding-usd"></i> Thu nhập: </td>
+                                    <td class="pb-2"><%= item.salary%></td>
+                                </tr>
+                            </table>
+                        </div>
+                   </div>
+                </div>
+                <div class="col-md-3 mx-auto my-auto">
+                  <%if (new Date(currentTime).getTime() <= new Date(item.deadline).getTime()) {%>
+                    <p><b><i class="far fa-clock"></i> Hạn ứng tuyển: </b><%= item.deadline.split("-").reverse().join("/")%></p>
+                  <% } else if (new Date(currentTime).getTime() > new Date(item.deadline).getTime()) {%>
+                    <p><b><i class="far fa-clock"></i> Hạn ứng tuyển: </b>Hết hạn</p>
+                  <%}%>
+                    <a href="/jobs/detail/id=<%= item.id%>" class="btn btn-primary">Xem chi tiết công việc </a>  
+                </div>
+            </div>
+            <%})} else {%>
+                <span class="text-center">Không có thông tin tuyển dụng nào</span>
+            <%}%>
+          </div>
+          </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<%include footer%>

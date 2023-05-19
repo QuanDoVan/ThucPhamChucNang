@@ -1,0 +1,125 @@
+<% include header %>
+	
+	<div class="pcoded-main-container">
+		<div class="pcoded-wrapper">
+			<div class="pcoded-content">
+				<div class="pcoded-inner-content">
+					<div class="main-body">
+						<div class="page-wrapper">
+							<div class="page-header-title">
+								<div class="row align-items-center">
+									<div class="col-md-5 header-title">
+										<h4>Chi tiết ứng tuyển</h4>
+									</div>
+									<div class="col-md-7 text-right">
+										<ul class="breadcrumb">
+											<li class="breadcrumb-item"><a href="/portal"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+											<li class="breadcrumb-item"><a href="/portal/recruitment/list">Danh sách ứng tuyển</a></li>
+											<li class="breadcrumb-item">Chi tiết ứng tuyển</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						
+							<div class="content-block">
+								<div class="row">
+                                    <div class="col-md-4"><b>Mã hồ sơ ứng tuyển:</b> <%= detailRecruitment.id%></div>
+                                    <div class="col-md-3"><b>Mã công việc:</b> <%= detailRecruitment.Job.id%></div>
+                                    <div class="col-md-5"><b>Tên công việc:</b> <%= detailRecruitment.Job.title%></div>
+                                    <div class="col-md-4 pt-2"><b>Họ và tên ứng viên:</b> <%= detailRecruitment.name%></div>
+                                    <div class="col-md-3 pt-2"><b>Số điện thoại:</b> <%= detailRecruitment.phone%></div>
+									<div class="col-md-5 pt-2"><b>Email: </b><%= detailRecruitment.email%></div>
+                                    <div class="col-md-4 pt-2"><b>Thời gian nộp:</b> <%= detailRecruitment.createTime%></div>
+                                    <div class="col-md-3 pt-2"><b>Trạng thái:</b>
+                                        <%if (detailRecruitment.status == "Chờ duyệt") {%>
+											<span class="badge bg-warning text-white"><%= detailRecruitment.status%></span>
+										<%} else if (detailRecruitment.status == "Đã duyệt") {%>
+											<span class="badge bg-info text-white"><%= detailRecruitment.status%></span>
+										<%} else if (detailRecruitment.status == "Phỏng vấn") {%>
+											<span class="badge bg-primary text-white"><%= detailRecruitment.status%></span>
+										<%} else if (detailRecruitment.status == "Trúng tuyển") {%>
+											<span class="badge bg-success text-white"><%= detailRecruitment.status%></span>
+										<%} else if (detailRecruitment.status == "Không đạt") {%>
+											<span class="badge bg-secondary text-white"><%= detailRecruitment.status%></span>
+										<%} else if (detailRecruitment.status == "Ứng viên từ chối") {%>
+											<span class="badge bg-danger text-white"><%= detailRecruitment.status%></span>
+										<%}%>
+                                    </div>
+									<div class="col-md-12 pt-2">
+										<b>Cập nhật trạng thái: </b>
+										<%if (detailRecruitment.status == "Chờ duyệt") {%>
+											<a href="/portal/recruitment/detail/status/id=<%= detailRecruitment.id%>" class="btn btn-success">Duyệt đơn ứng tuyển</a>
+										<%} else {%>
+											<a href="" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="far fa-edit"></i> Cập nhật trạng thái ứng tuyển</a>
+											<div class="modal fade" id="myModal">
+												<div class="modal-dialog modal-dialog-centered modal-md">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h4 class="modal-title">Cập nhật trạng thái hồ sơ ứng viên</h4>
+															<button type="button" class="close" data-dismiss="modal">&times;</button>
+														</div>
+														<form action="/portal/recruitment/status" method="post">
+															<div class="modal-body">
+																<p>Mã hồ sơ ứng tuyển: <span class="text-primary font-weight-bold"><%= detailRecruitment.id%></span></p>
+																<input type="text" name="id" value="<%= detailRecruitment.id%>" hidden/>
+																<input type="text" name="page" value="detail" hidden />
+																<ul class="statusDelivery">
+																	<li><input type="radio" name="status" value="Chờ duyệt" class="pr-3" <%if (detailRecruitment.status == "Chờ duyệt") {%>checked <%}%> /> Chờ duyệt hồ sơ ứng tuyển</li>
+																	<li><input type="radio" name="status" value="Đã duyệt" class="pr-3" <%if (detailRecruitment.status == "Đã duyệt") {%>checked <%}%> /> Đã duyệt hồ sơ ứng tuyển</li>
+																	<li><input type="radio" name="status" value="Phỏng vấn" <%if (detailRecruitment.status == "Phỏng vấn") {%>checked <%}%>/> Phỏng vấn ứng viên</li>
+																	<li><input type="radio" name="status" value="Trúng tuyển" <%if (detailRecruitment.status == "Trúng tuyển") {%>checked <%}%>/> Ứng viên trúng tuyển</li>
+																	<li><input type="radio" name="status" value="Không đạt" <%if (detailRecruitment.status == "Không đạt") {%>checked <%}%> /> Ứng viên không đạt yêu cầu</li>
+																	<li><input type="radio" name="status" value="Ứng viên từ chối" <%if (detailRecruitment.status == "Ứng viên từ chối") {%>checked <%}%> /> Ứng viên từ chối</li>
+																</ul>
+															</div>
+															<div class="modal-footer text-center">
+																<button type="submit" class="btn btn-info">Cập nhật</button>
+																<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+															</div>				
+														</form>
+													</div>									
+												</div>
+											</div>
+										<%}%>
+									</div>
+									<div class="col-sm-12 pt-2"><b>Thư giới thiệu: </b>
+										<%if (detailRecruitment.introduce == null) {%>
+											Không có
+										<%} else {%>
+											<a href="" class="btn btn-info text-white" data-toggle="collapse" data-target="#demo1">Đọc thư giới thiệu</a>
+											<div id="demo1" class="collapse">
+												<div class="introduce">
+													<%- detailRecruitment.introduce%>
+												</div>										
+											</div>
+											
+										<%}%>
+									</div>
+									<div class="col-md-12 pt-2"><b>Đọc hồ sơ: </b>
+										<a href="" class="btn btn-info text-white" data-toggle="collapse" data-target="#demo2">Đọc hồ sơ ứng viên</a>
+										<div id="demo2" class="collapse">
+											<embed src="<%= detailRecruitment.file%>" width="100%" height="1120px" type="">										
+										</div>
+									</div>
+									<form action="/portal/recruitment/send" method="post" style="width: 100%">
+                                    <div class="col-sm-12 pt-3"><b>Trả lời thư</b> - <span class="text-success">Gửi đến email: <b><%= detailRecruitment.email%></b></span></div>
+                                    <div class="col-md-12 pt-1">
+										<input type="text" name="id" value="<%= detailRecruitment.id%>" hidden>
+										<input type="text" name="email" value="<%= detailRecruitment.email%>" hidden>
+                                        <textarea name="letter" class="type-textarea" id="editor" placeholder="Trả lời thư (hẹn phỏng vấn/trả về kết quả)..."></textarea>
+                                    </div>
+                                    <div class="col-md-12 pt-3 text-center">
+                                        <button type="submit" class="btn btn-info"><i class="far fa-paper-plane"></i> Gửi thư</button>
+										<a href="/portal/recruitment/list" class="btn btn-warning"><i class="fas fa-reply"></i> Trở về</a>
+                                    </div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<% include footer %>
